@@ -1,22 +1,43 @@
+import java.util.ArrayList;
+
 public class Semaphore{
-		private int value;
+
+	public ArrayList<Integer> semaphore;
+	private int ticket = 0;
 	
-		public Semaphore() {
-			value = 1;
+	private void awake() {
+		this.semaphore = new ArrayList<Integer>();
+	}
+	public int enqueueAccess() {
+		int t = ticket;
+		semaphore.add(t);
+			if (ticket == 1000)
+			{
+				ticket = 0;
+			}
+			else
+			{
+				ticket++;
+			}
+			
+		return t;
+	}
+
+	public boolean requestAccess(int t) {
+		if (semaphore.get(0).equals(t))
+		{
+			return true;
 		}
-		
-		public Semaphore(int value) {
-			this.value = value;
+		else
+		{
+			return false;
 		}
-		public synchronized void acquire() {
-			while (value == 0)
-				try {
-						wait();
-				} catch (InterruptedException ie) { }
-			value--;
+
+	}
+	public void releaseAccess(int t) {
+		if (semaphore.get(0).equals(t))
+		{
+			semaphore.remove(0);
 		}
-		 public synchronized void release() {
-			 ++value;
-			 notify();
-		}
+	}
 }

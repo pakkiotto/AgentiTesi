@@ -2,9 +2,9 @@
 public class World {
 
 	private Semaphore s;
-	private GUIText text;
+	//private GUIText text;
 	private Facts worldFacts = new Facts();
-	private Dictioary worldDictionary = new Dictionary();
+	private Dictionary worldDictionary = new Dictionary();
 
 	public void start() {
 		worldFacts = new Facts();
@@ -17,5 +17,13 @@ public class World {
 	
 	public Facts getFacts(){
 		return worldFacts;
+	}
+
+	public Dictionary getWorldDictionary() {
+		return worldDictionary;
+	}
+
+	public void setWorldDictionary(Dictionary worldDictionary) {
+		this.worldDictionary = worldDictionary;
 	}
 }

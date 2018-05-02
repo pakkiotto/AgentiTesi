@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Agent {
 
@@ -110,21 +111,21 @@ public class Agent {
 		// TODO Auto-generated method stub
 		
 	}
-	public final Beliefs Percept() {
-		Beliefs newbels = new Beliefs();
+	public Beliefs Percept() {
+		Beliefs newBels = new Beliefs();
 			for (int i = 0;i < this.agentBeliefs.getBels().size();i++)
 			{
 				if (this.agentBeliefs.getBels().get(i) instanceof PrivateBelief)
 				{
-					newbels.addBelief(agentBeliefs.getBels().get(i));
+					newBels.addBelief(agentBeliefs.getBels().get(i));
 				}
 			}
-			for (int i = 0;i < myWorld.worldFacts.WorldFacts.getBels().size();i++)
+			for (int i = 0;i < myWorld.getFacts().worldFacts.getBels().size();i++)
 			{
-				newbels.addPublicBelief(myWorld.worldFacts.WorldFacts.getBels().get(i).getName(),myWorld.worldFacts.WorldFacts.getBels().get(i).getDomain(),myWorld.worldFacts.WorldFacts.getBels().get(i).getbValue(),(myWorld.worldFacts.WorldFacts.getBels().get(i) instanceof PublicBelief ? (PublicBelief)myWorld.worldFacts.WorldFacts.getBels().get(i) : null).Visibility,(myWorld.worldFacts.WorldFacts.getBels().get(i) instanceof PublicBelief ? (PublicBelief)myWorld.worldFacts.WorldFacts.getBels().get(i) : null).VisibleTo);
+				newBels.addPublicBelief(myWorld.getFacts().worldFacts.getBels().get(i).getName(),myWorld.getFacts().worldFacts.getBels().get(i).getDomain(),myWorld.getFacts().worldFacts.getBels().get(i).getbValue(),(myWorld.getFacts().worldFacts.getBels().get(i) instanceof PublicBelief ? (PublicBelief)myWorld.getFacts().worldFacts.getBels().get(i) : null).getVisibility(),(myWorld.getFacts().worldFacts.getBels().get(i) instanceof PublicBelief ? (PublicBelief)myWorld.getFacts().worldFacts.getBels().get(i) : null).getVisibleTo());
 			}
 	
-	return newbels;
+	return newBels;
 			//return myWorld.getFacts();
 	}
 	public void changeWorld() {
@@ -133,7 +134,7 @@ public class Agent {
 			{
 				if (agentBeliefs.getBels().get(i) instanceof PublicBelief)
 				{
-					myWorld.worldFacts.WorldFacts.changeBeliefValue(agentBeliefs.getBels().get(i).getName(),agentBeliefs.getBels().get(i).getbValue());
+					myWorld.getFacts().worldFacts.changeBeliefValue(agentBeliefs.getBels().get(i).getName(),agentBeliefs.getBels().get(i).getbValue());
 				}
 			}
 
@@ -155,6 +156,11 @@ public class Agent {
 		Postcondition post;
 		Action a;
 
+	}
+	//problema con delegati
+	public Iterator doPlan(Goal g) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
