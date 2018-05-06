@@ -20,29 +20,29 @@ public class Action {
 	
 	public Action(String np, Precondition p, Postcondition po) {
 		String[] temp = np.split("[(]", -1);
-		this.name = temp[0];
+		this.setName(temp[0]);
 		String[] temp1 = temp[1].split("[)]", -1);
 		String[] temp2 = temp1[0].split("[,]", -1);
-		this.parameters = temp2;
-		Preconditions.add(p);
-		this.post = po;
+		this.setParameters(temp2);
+		getPreconditions().add(p);
+		this.setPost(po);
 	}
 	public Action(String np) {
 		String[] temp = np.split("[(]", -1);
-		this.name = temp[0];
+		this.setName(temp[0]);
 		String[] temp1 = temp[1].split("[)]", -1);
 		String[] temp2 = temp1[0].split("[,]", -1);
-		this.parameters = temp2;
+		this.setParameters(temp2);
 	}
 	public Action(String np, Precondition p, Postcondition po, String asy) {
 		String[] temp = np.split("[(]", -1);
-		this.name = temp[0];
+		this.setName(temp[0]);
 		String[] temp1 = temp[1].split("[)]", -1);
 		String[] temp2 = temp1[0].split("[,]", -1);
-		this.parameters = temp2;
+		this.setParameters(temp2);
 		//pre=p;
-		Preconditions.add(p);
-		this.post = po;
+		getPreconditions().add(p);
+		this.setPost(po);
 		
 		if (asy.equals("Async"))
 		{
@@ -51,10 +51,10 @@ public class Action {
 	}
 	public Action(String np, String asy) {
 		String[] temp = np.split("[(]", -1);
-		this.name = temp[0];
+		this.setName(temp[0]);
 		String[] temp1 = temp[1].split("[)]", -1);
 		String[] temp2 = temp1[0].split("[,]", -1);
-		this.parameters = temp2;
+		this.setParameters(temp2);
 		if (asy.equals("Async"))
 		{
 			isAsync = true;
@@ -62,11 +62,11 @@ public class Action {
 	}
 	public Action(String n, String[] p, Precondition pr, Postcondition po,ArrayList<String> v,ArrayList<String[]> vd, ArrayList<String> univV, ArrayList<varPropertydelegate> dg, ArrayList<ArrayList<String>> varpars, boolean asy ,actionImplementation ai, int id) {
 
-		this.name = n;
-		this.parameters = p;
+		this.setName(n);
+		this.setParameters(p);
 		//pre=pr;
-		Preconditions.add(pr);
-		this.post = po;
+		getPreconditions().add(pr);
+		this.setPost(po);
 		this.variables = v;
 		this.variablesDomain = vd;
 		this.univVariables = univV;
@@ -77,11 +77,11 @@ public class Action {
 		this.actID = id;
 	}
 	public Action(String n, String[] p, ArrayList<Precondition> pr, Postcondition po, ArrayList<String> v, ArrayList<String[]> vd, ArrayList<String> univV, ArrayList<varPropertydelegate> dg, ArrayList<ArrayList<String>> varpars, boolean asy, actionImplementation ai, int id) {
-		this.name = n;
-		this.parameters = p;
+		this.setName(n);
+		this.setParameters(p);
 		//pre=pr;
-		this.Preconditions = pr;
-		this.post = po;
+		this.setPreconditions(pr);
+		this.setPost(po);
 		this.variables = v;
 		this.variablesDomain = vd;
 		this.univVariables = univV;
@@ -134,20 +134,20 @@ public class Action {
 				postValues[i] = temp1[1];
 			}
 
-			post = new Postcondition(postNames,postValues);
+			setPost(new Postcondition(postNames,postValues));
 		}
 	public void addPrecondition(Precondition p) {
-		Preconditions.add(p);
+		getPreconditions().add(p);
 	}
 	public void addResourcePrecondition(Precondition p) {
 		p.setCritical(false);
-		Preconditions.add(p);
+		getPreconditions().add(p);
 	}
 	public boolean checkPreconditions(Beliefs b) {
 		boolean ver = true;
-		for (int i = 0;i < Preconditions.size();i++)
+		for (int i = 0;i < getPreconditions().size();i++)
 			{
-				if (Preconditions.get(i).checkPrecondition(b) != true)
+				if (getPreconditions().get(i).checkPrecondition(b) != true)
 				{
 					ver = false;
 					break;
@@ -157,12 +157,12 @@ public class Action {
 	}
 	public boolean checkPreconditionsNotInPostConditions(Beliefs b) {
 		boolean ver = true;
-		for (int i = 0;i < Preconditions.size();i++)
+		for (int i = 0;i < getPreconditions().size();i++)
 		{
-			Precondition temp = new Precondition(Preconditions.get(i).getBelsToCheck(),Preconditions.get(i).getFunction());
+			Precondition temp = new Precondition(getPreconditions().get(i).getBelsToCheck(),getPreconditions().get(i).getFunction());
 			for (int j = 0;j < temp.getBelsToCheck().length;j++)
 			{
-				if (this.post.isInPostcondition(temp.getBelsToCheck()[j]))
+				if (this.getPost().isInPostcondition(temp.getBelsToCheck()[j]))
 				{
 					temp.getBelsToCheck()[j] = "ignore";
 				}
@@ -188,6 +188,30 @@ public class Action {
 	public void checkAction(Object bNode, ArrayList<Beliefs> newBel, ArrayList<Action> newActions) {
 		// TODO Auto-generated method stub
 		
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String[] getParameters() {
+		return parameters;
+	}
+	public void setParameters(String[] parameters) {
+		this.parameters = parameters;
+	}
+	public ArrayList <Precondition> getPreconditions() {
+		return Preconditions;
+	}
+	public void setPreconditions(ArrayList <Precondition> preconditions) {
+		Preconditions = preconditions;
+	}
+	public Postcondition getPost() {
+		return post;
+	}
+	public void setPost(Postcondition post) {
+		this.post = post;
 	}
 	@FunctionalInterface
 	public interface PreconditionDelegate
